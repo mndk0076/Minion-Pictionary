@@ -1,0 +1,20 @@
+{
+	"name": "Minion-Pictionary",
+	"version": "1.0.0",
+	"description": "guessing the sketch",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+    "type": "git",
+    "url": "git+https://github.com/mndk0076/Minion-Pictionary.git"
+  	},
+	"author": "Kenneth Mendoza",
+  	"license": "ISC",
+	"dependencies": {
+		"express": "^4.15.2",
+		"socket.io": "^2.2.0"
+	}
+}
