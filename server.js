@@ -62,7 +62,7 @@ function newConnection(socket){
     }
    
     function reset (data) {
-        countdown = 10;
+        countdown = 60;
         io.sockets.emit('timer', { countdown: countdown });
         io.to(ids[0]).emit('word', words[Math.floor(Math.random() * words.length)]);
         io.sockets.emit('nextDrawer', players[Math.floor(Math.random() * players.length)]);
@@ -70,7 +70,7 @@ function newConnection(socket){
     }
 
     function timer(){
-        var countdown = 10
+        var countdown = 60
         let  timer = setInterval(function() {
             countdown--;
             io.sockets.emit('timer', { countdown: countdown });
