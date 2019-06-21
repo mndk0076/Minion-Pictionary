@@ -29,8 +29,6 @@ function newDrawing(data){
 }
 
 function mouseDragged(){
-    ///console.log(mouseX + ',' + mouseY);
-
     let data = {
         x: mouseX,
         y: mouseY

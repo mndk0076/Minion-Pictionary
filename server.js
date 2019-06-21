@@ -1,7 +1,8 @@
 let express = require('express');
 let socket = require('socket.io');
 let app = express();
-let server = process.env.PORT || app.listen(3000);
+let http = require('http').createServer(app);
+let io = require('socket.io').listen(http);
 
 players = [];
 connections = [];
@@ -11,7 +12,7 @@ app.use(express.static('public'));
 
 console.log("Server is running...");
 
-let io = socket(server);
+//let io = socket(server);
 
 io.sockets.on('connection', newConnection);
 
@@ -63,6 +64,7 @@ function newConnection(socket){
     function reset (data) {
         countdown = 10;
         io.sockets.emit('timer', { countdown: countdown });
+        io.to(ids[0]).emit('word', words[Math.floor(Math.random() * words.length)]);
         io.sockets.emit('nextDrawer', players[Math.floor(Math.random() * players.length)]);
         timer();
     }
@@ -88,3 +90,7 @@ function newConnection(socket){
         io.emit('guess', guessWords);
 	}
 }
+
+http.listen(process.env.PORT || 3000, function () {
+	console.log('Waiting for players!');
+});
