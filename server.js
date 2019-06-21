@@ -1,7 +1,7 @@
 let express = require('express');
 let socket = require('socket.io');
 let app = express();
-let server = app.listen(3000);
+let server = process.env.PORT || app.listen(3000);
 
 players = [];
 connections = [];
