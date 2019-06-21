@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minion Pictionary</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+</head>
+<body>
+    <div class="parent" id="form-user">
+        <div class="child">
+            <img src="images/logo.png" alt="logo" height="400px">
+            <form id="user-form">
+                <h1 id="heading">Minion Pictionary</h1>
+                <div class="form-container">
+                    <div class="user-input">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" placeholder="Please eneter your username..."/>
+                    </div>
+                    <div class="mt-1">
+                        <span class="error" id="error"></span>
+                        <input id="login" type="submit" class="login float-right " value="Enter" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="game-area">
+        <i class="fas fa-sign-out-alt" data-toggle="tooltip" data-placement="bottom" title="Exit" id="exit"></i>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button id="reset" class="login">Start Game</button>
+                    </div>
+                    <div class="col-md-6 mt-3 ml-n3">
+                        <span class="ml-5">Word: </span><span id="word"></span> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <p> You have <span id="counter">60</span> second(s) remaining</p>
+                    </div>
+                    <div class="col-md-4 ml-n5 ml-n3">
+                        <span class="draw">Turns to draw:</span><span id="next-drawer"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mt-n2" id="sketch-holder"></div>
+                </div>
+                <div class="row">
+                    <form id="guess-form">
+                        <div class="col-md-12 mt-n1">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control" id="guess-word" placeholder="Guess the sketch...">
+                                <div class="input-group-append send">
+                                    <button class="btn btn-outline-secondary" type="submit"><i class="far fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4 ml-n2">
+                <div class="row users">
+                    <span class="mt-3 ml-3 online">Player(s) Online: <span id="playersOnline">10</span></span>
+                    <span class="players" id="playersList"></span>
+                </div>
+                <div class="row chat">
+                    <span id="guess"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="draw.js"></script>
+</body>
+</html>
