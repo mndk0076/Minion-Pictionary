@@ -49,6 +49,7 @@ userForm.submit(function(e) {
     if(username.val() ==  ""){
         error.html('*Please enter a username');
     }else{
+        socket.emit('new-user', username.val());
         socket.emit('add player', username.val());
         form.hide();
         gameArea.show();
@@ -83,6 +84,10 @@ socket.on('reset', function () {
     setup();
 });
 
+socket.on('user-connected', name =>{
+    guessChat.html(`${name} connected <br/>`);
+});
+
 socket.on('word', function (data) {
     $('#word').html(data);
 });
@@ -100,18 +105,13 @@ socket.on('players list', function (data) {
     playersList.html(userList);
 });
 
-socket.on('guess', function (data) {
-    var guessList = '';
-
-    for (i = 0; i < data.length; i++) {
-        if(data[i] != null){
-            guessList += data[i] + '<br>';
-        }
-    }
-    guessWord.html('');
-    guessChat.html(guessList);
+socket.on('guess', data => {
+    guessChat.append(`${data.name}: ${data.message}<br/>`);
+});
+socket.on('disconnected', name => {
+    guessChat.append(`${name} disconnected<br/>`);
 });
 
-socket.on('nextDrawer', function (data) {
+socket.on('nextDrawer', data => {
     $('#next-drawer').html(data);
 });

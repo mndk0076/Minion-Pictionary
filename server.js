@@ -3,10 +3,11 @@ let socket = require('socket.io');
 let app = express();
 let http = require('http').createServer(app);
 let io = require('socket.io').listen(http);
-
+let users = {};
 players = [];
 connections = [];
 guessWords = [];
+
 
 app.use(express.static('public'));
 
@@ -17,8 +18,14 @@ console.log("Server is running...");
 io.sockets.on('connection', newConnection);
 
 function newConnection(socket){
-    console.log("new connection: " + socket.id);
-    console.log('Connected: %s sockets connected', connections.length);
+    //console.log("new connection: " + socket.id);
+    //console.log('Connected: %s sockets connected', connections.length);
+
+    socket.on('new-user', name => {
+        console.log(name);
+        users[socket.id] = name;
+        socket.broadcast.emit('user-connected', name);
+    })
 
     let words = ["Banana", "House", "Boat", "Car", "Apple", "Shoes", "School", "Basketball", "Church",
                  "Dancing", "Snake", "Monkey", "Dog", "Ice cream", "Pizza", "Horse", "Cow"];
@@ -34,31 +41,30 @@ function newConnection(socket){
 
 	function addPlayer (data) {
         socket.username = data;
-
-        console.log(socket.username);
+        //console.log(socket.username);
         players.push(socket.username);
-        
         updatePlayers();
     }
 
     function disconnect (data) {
         socket.username = data;
-        console.log(data);
-        console.log('dis: '+socket.username);
+        //console.log(data);
+        //console.log('dis: '+socket.username);
 		players.splice(players.indexOf(socket.username), 1);
 		updatePlayers();
 		connections.splice(connections.indexOf(socket), 1)
-		io.emit('disconnected', socket.username);
+        socket.broadcast.emit('disconnected', users[socket.id]);
+        delete users[socket.id];
     }
     
-    function guess (data){
-        guessWords.push(data);
-        updateGuessWords();
+    function guess (message){
+        //guessWords.push(data);
+        io.sockets.emit('guess', {message: message, name: users[socket.id]});
     }
 
     function dataMsg(data){
         socket.broadcast.emit('data', data);
-        console.log(data);
+        //console.log(data);
     }
    
     function reset (data) {
@@ -79,15 +85,11 @@ function newConnection(socket){
                 io.sockets.emit('reset');
                 io.sockets.emit('nextDrawer', players[Math.floor(Math.random() * players.length)]);
                 guessWords = [];
-                updateGuessWords();
             }
         }, 1000);
     }
     function updatePlayers() {
         io.sockets.emit('players list', players);
-	}
-    function updateGuessWords() {
-        io.emit('guess', guessWords);
 	}
 }
 
